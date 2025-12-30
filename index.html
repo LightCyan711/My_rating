@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My Ratings — Game, Anime, Movie</title>
+  <meta name="description" content="나만의 게임, 애니, 영화 평점 기록 공간">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo">My<span class="accent">Ratings</span></div>
+      <div class="tag">Collection Archive</div>
+    </div>
+    <div class="auth">
+      <button id="loginBtn" class="btn ghost">로그인</button>
+      <button id="logoutBtn" class="btn ghost" style="display:none">로그아웃</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Archive <span class="accent">My Ratings</span></h1>
+    <div class="hero-actions">
+      <input id="searchInputHero" class="hero-search" type="search" placeholder="작품 제목으로 검색하세요..." autofocus />
+    </div>
+  </section>
+
+  <div class="filter-container">
+    <div class="filter-bar">
+      <div class="filter-group left">
+        <select id="genreFilter">
+          <option value="all">전체 장르</option>
+        </select>
+      </div>
+      
+      <nav class="tabs">
+        <button class="tab active" data-type="all">전체</button>
+        <button class="tab" data-type="게임">게임</button>
+        <button class="tab" data-type="애니">애니</button>
+        <button class="tab" data-type="영화">영화</button>
+      </nav>
+
+      <div class="filter-group right">
+        <select id="sortSelect">
+          <option value="created-desc">최근 추가순</option>
+          <option value="score-desc">평점 높은순</option>
+          <option value="score-asc">평점 낮은순</option>
+          <option value="title-asc">이름 가나다순</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div id="seriesSummary" class="series-summary" style="display:none"></div>
+    <div id="list" class="list"></div>
+  </main>
+
+
+  <div id="editor" class="editor" style="display:none">
+    <form id="editForm">
+      <h2 id="formTitle">새 항목 추가</h2>
+      
+      <div class="form-group">
+        <label>작품 제목</label>
+        <input name="title" placeholder="작품 명칭을 입력하세요" required>
+      </div>
+
+      <div class="form-group">
+        <label>영문 제목 (선택)</label>
+        <input name="engTitle" placeholder="English Title (상세보기에만 표시됨)">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>카테고리</label>
+          <select name="type">
+            <option value="게임">🎮 게임</option>
+            <option value="애니">✨ 애니</option>
+            <option value="영화">🎬 영화</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>평점 (0.0 - 10.0)</label>
+          <input name="score" type="number" min="0" max="10" step="0.1" placeholder="9.5" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>감독 / 제작사</label>
+          <input name="creator" placeholder="이름 (생략 가능)">
+        </div>
+        <div class="form-group">
+          <label>발매 연도</label>
+          <input name="year" type="number" placeholder="2024">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>장르 (쉼표 구분)</label>
+          <input name="genre" placeholder="액션, RPG, SF">
+        </div>
+        <div class="form-group">
+          <label>포스터 번호</label>
+          <input name="poster" placeholder="이미지 명 (예: 1)" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>한줄평 / 요약</label>
+        <textarea name="review" rows="2" placeholder="짧고 강렬한 한 줄!"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>상세 리뷰 (선택)</label>
+        <textarea name="detailReview" rows="5" placeholder="작품에 대한 상세한 감상평을 기록하세요..."></textarea>
+      </div>
+
+      <!-- Series Section -->
+      <div class="form-divider"></div>
+      <div class="form-section">
+        <label class="section-title">시리즈 설정 (선택)</label>
+        <div class="form-group">
+          <label>기본 시리즈 연결</label>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <input id="seriesSearch" placeholder="시리즈명으로 검색..." style="font-size: 0.75rem; padding: 0.5rem;" />
+            <select name="seriesId">
+              <option value="">(없음)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 1rem;">
+          <label>새 시리즈 생성</label>
+          <input name="seriesName" placeholder="새로운 시리즈명 입력 시 생성" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" id="cancelEdit" class="btn ghost">취소</button>
+        <button type="submit" class="btn primary">저장하기</button>
+      </div>
+    </form>
+  </div>
+
+  <button id="fabAdd" class="fab" title="새 항목 추가" style="display:none">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <line x1="5" y1="12" x2="19" y2="12"></line>
+    </svg>
+  </button>
+
+  <div id="detailModal" class="detail-modal" style="display:none">
+    <div class="detail-content-wrapper">
+      <button id="closeDetail" class="close-detail-btn">&times;</button>
+      <div id="detailContent" class="detail-body">
+        <!-- Content injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,13 @@
+{
+  "name": "my-rating",
+  "version": "1.0.0",
+  "description": "My Ratings Archive",
+  "main": "app.js",
+  "scripts": {
+    "dev": "npx serve ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}
