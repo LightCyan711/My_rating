@@ -325,12 +325,16 @@ function renderList(items){
       if(i.seriesId !== currentSeriesFilter) return false;
     }
     if(searchTerm){
-      const title = (i.title||'').toString().toLowerCase();
-      const eng = (i.engTitle||'').toString().toLowerCase();
-      const creator = (i.creator||'').toString().toLowerCase();
-      const genre = (i.genre||'').toString().toLowerCase();
-      // Search in Title, English Title, Creator, and Genre
-      return title.includes(searchTerm) || eng.includes(searchTerm) || creator.includes(searchTerm) || genre.includes(searchTerm);
+      const cleanSearch = searchTerm.replace(/\s+/g, '');
+      const getVal = (v) => (v||'').toString().toLowerCase().replace(/\s+/g, '');
+      
+      const title = getVal(i.title);
+      const eng = getVal(i.engTitle);
+      const creator = getVal(i.creator);
+      const genre = getVal(i.genre);
+      
+      // Search in Title, English Title, Creator, and Genre (space-insensitive)
+      return title.includes(cleanSearch) || eng.includes(cleanSearch) || creator.includes(cleanSearch) || genre.includes(cleanSearch);
     }
     return true;
   });
