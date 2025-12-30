@@ -326,7 +326,11 @@ function renderList(items){
     }
     if(searchTerm){
       const title = (i.title||'').toString().toLowerCase();
-      return title.includes(searchTerm);
+      const eng = (i.engTitle||'').toString().toLowerCase();
+      const creator = (i.creator||'').toString().toLowerCase();
+      const genre = (i.genre||'').toString().toLowerCase();
+      // Search in Title, English Title, Creator, and Genre
+      return title.includes(searchTerm) || eng.includes(searchTerm) || creator.includes(searchTerm) || genre.includes(searchTerm);
     }
     return true;
   });
