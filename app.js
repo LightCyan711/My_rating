@@ -76,6 +76,8 @@ onAuthStateChanged(auth, user=>{
   isAdmin = user?.email === ADMIN_EMAIL;
   console.log('Auth state changed:', user?.email ?? null, 'isAdmin=', isAdmin);
   updateAuthUI();
+  // Re-render list to show/hide admin buttons immediately
+  if(latestItems.length > 0) renderList(latestItems);
 });
 
 // 전역 에러 포착(간단한 디버깅 도움용)
